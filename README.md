@@ -1,2 +1,2 @@
 # Sistema Bancario
-Sistema banceiro em python para treinar logica de programação
+Sistema bancairo em python para treinar logica de programação!
