@@ -1,5 +1,5 @@
 import random
-print("\nMINI BANCO")
+print("\nSISTEMA BANCÁRIO")
 saldo = 2000
 saldo_cofrinho = 0.0
 chave_pix = ''
