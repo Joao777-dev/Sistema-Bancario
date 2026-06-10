@@ -1,2 +1,3 @@
 # Sistema Bancario
-Sistema bancairo em python para treinar logica de programação!
+Meu primeiro projeto em Python focado exclusivamente em lógica de programação e apeefeiçoamento em conceitos de lógica.
+
