@@ -23,7 +23,6 @@ def validar_email(email):
         print('EMAIL VALIDO!')
         return True
 
-
 def menu_cadastrar(dados_pessoais, cpf, email, nome, data_nasc):
 
 
