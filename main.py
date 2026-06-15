@@ -23,19 +23,24 @@ def validar_email(email):
         print('EMAIL VALIDO!')
         return True
 
-def menu_cadastrar(dados_pessoais, cpf, email, nome, data_nasc):
+def validar_data_nasc(data_nasc):
+    return len(data_nasc) == 8
 
+
+def menu_cadastrar(dados_pessoais, cpf, email, nome, data_nasc):
 
     nome = input("NOME COMPLETO: ")
     while not nome:
         print('ESTE CAMPO É OBRIGATORIO!')       
         nome = input("NOME COMPLETO: ")
-
-    data_nasc = input("DATA NASC: ")
-    while not data_nasc:
-        print('ESTE CAMPO É OBRIGATORIO!')
+    
+    while True:
         data_nasc = input("DATA NASC (DDMMAAAA): ")
-
+        
+        if validar_data_nasc(data_nasc):
+            print('DATA DE NASCIMENTO CADASTRADA COM SUCESSO')
+            break
+        print('DATA DE NASCIMENTO INVALIDA OU INCORRETA')
     while True:
         cpf = input("CPF(SEM PONTUAÇÕES): ")
 
@@ -200,7 +205,6 @@ def extrato_bancario():
         print(transaction)
 
 
-
 def cofrinho_investimentos(saldo,extrato, saldo_cofrinho):
     print('------------------')
     print('AQUI O SEU DINHEIRO CRESCE!')
@@ -247,7 +251,9 @@ def menu_cofrinho(saldo, saldo_cofrinho, extrato):
             print('OPÇÃO INVALIDA!!')
     return saldo, saldo_cofrinho
 
-def funcionalidade(dados_pessoais, cpf, email, nome, data_nasc):
+
+
+def tela_cadastro(dados_pessoais, cpf, email, nome, data_nasc):
     global usuario_cadastrado
     while True:
         try:
@@ -283,7 +289,7 @@ def funcionalidade(dados_pessoais, cpf, email, nome, data_nasc):
             print('\nPROCESSANDO...')
             print('OPERAÇÃO CANCELADA PELO USUARIO')
             break
-dados_pessoais, cpf, email = funcionalidade(
+dados_pessoais, cpf, email = tela_cadastro(
     dados_pessoais,
     cpf,
     email,
