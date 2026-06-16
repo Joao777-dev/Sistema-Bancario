@@ -253,6 +253,30 @@ def menu_cofrinho(saldo, saldo_cofrinho, extrato):
 
 
 
+
+def gerador_comprovante(nome):
+    for transaction in extrato:
+        print('GERANDO COMPROVANTE...')
+        print(f'''COMPROVANTE DE PAGAMENTO
+        VALOR R$ {transaction}
+        NOME {nome}
+        CPF {cpf}''')
+        
+  
+
+def comprovante_transacoes(gerador_comprovante):
+    print('''[1]VISUALIZAR COMPROVANTE
+[2]SAIR ''')
+    opcao = input('ESCOLHA UMA OPCAO: ')
+    if opcao == '1':
+        gerador_comprovante(nome)
+        
+    elif opcao == '2':
+        print('CARREGANDO...')
+
+
+
+
 def tela_cadastro(dados_pessoais, cpf, email, nome, data_nasc):
     global usuario_cadastrado
     while True:
@@ -307,12 +331,16 @@ if usuario_cadastrado:
                 mostrar_saldo()
             elif opcao_menu == '2':
                 saldo = valor_saque(saldo, extrato)
+                comprovante_transacoes(gerador_comprovante)
             elif opcao_menu == '3':
                 saldo = realizar_deposito(saldo, extrato)
+                comprovante_transacoes(gerador_comprovante)
             elif opcao_menu == '4':
                  saldo = menu_transferencias(saldo, extrato)
+                 comprovante_transacoes(gerador_comprovante)
             elif opcao_menu == '5':
                 saldo, saldo_cofrinho = menu_cofrinho(saldo, saldo_cofrinho, extrato)
+                comprovante_transacoes(gerador_comprovante)
             elif opcao_menu == '6':
                 extrato_bancario()
             elif opcao_menu == '7':
