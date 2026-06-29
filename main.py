@@ -1,4 +1,6 @@
 import random
+from datetime import datetime
+
 print("\nSISTEMA BANCÁRIO")
 saldo = 2000
 saldo_cofrinho = 0.0
@@ -10,6 +12,12 @@ usuario_cadastrado = False
 dados_pessoais = {}
 nome = ''
 data_nasc = ''
+
+
+def relogio_transacoes():
+    horario_transacoes = datetime.now()
+    print(horario_transacoes)
+
 
 def validar_cpf(cpf):
     return cpf.isdigit() and len(cpf) == 11
@@ -249,19 +257,18 @@ def menu_cofrinho(saldo, saldo_cofrinho, extrato):
             break
         else:
             print('OPÇÃO INVALIDA!!')
-    return saldo, saldo_cofrinho
+    return saldo, extrato, saldo_cofrinho
 
 
 
 
-def gerador_comprovante(nome):
+def gerador_comprovante():
     for transaction in extrato:
         print('GERANDO COMPROVANTE...')
         print(f'''COMPROVANTE DE PAGAMENTO
-        VALOR R$ {transaction}
-        NOME {nome}
-        CPF {cpf}''')
-        
+        VALOR: R$ {transaction}
+        CPF: {cpf}''')
+    
   
 
 def comprovante_transacoes(gerador_comprovante):
@@ -269,7 +276,8 @@ def comprovante_transacoes(gerador_comprovante):
 [2]SAIR ''')
     opcao = input('ESCOLHA UMA OPCAO: ')
     if opcao == '1':
-        gerador_comprovante(nome)
+        gerador_comprovante()
+        relogio_transacoes()
         
     elif opcao == '2':
         print('CARREGANDO...')
