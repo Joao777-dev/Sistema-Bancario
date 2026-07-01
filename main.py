@@ -249,7 +249,7 @@ def menu_cofrinho(saldo, saldo_cofrinho, extrato):
         ''')
         opcao_cofrinho = input("ESCOLHA UMA OPCAO: ")
         if  opcao_cofrinho == '1':
-            saldo, saldo_cofrinho = cofrinho_investimentos(saldo,extrato, saldo_cofrinho)
+            saldo, saldo_cofrinho = cofrinho_investimentos(saldo, saldo_cofrinho)
         elif opcao_cofrinho == '2':
             extrato_cofrinho(saldo_cofrinho)
         elif opcao_cofrinho == '3':
@@ -257,7 +257,7 @@ def menu_cofrinho(saldo, saldo_cofrinho, extrato):
             break
         else:
             print('OPÇÃO INVALIDA!!')
-    return saldo, extrato, saldo_cofrinho
+    return saldo, saldo_cofrinho
 
 
 
@@ -275,12 +275,10 @@ def comprovante_transacoes(gerador_comprovante):
     print('''[1]VISUALIZAR COMPROVANTE
 [2]SAIR ''')
     opcao = input('ESCOLHA UMA OPCAO: ')
-    if opcao == '1':
+    if opcao != '2':
         gerador_comprovante()
         relogio_transacoes()
         
-    elif opcao == '2':
-        print('CARREGANDO...')
 
 
 
