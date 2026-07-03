@@ -133,22 +133,27 @@ def valor_saque(saldo, extrato):
             print(f'SAQUE REALIZADO R${saque}')
             saldo = saldo - saque
             extrato.append(f'SAQUE REALIZADO -R${saque}')
+            comprovante_transacoes(gerador_comprovante)
         else:
             print("VALOR INSUFICIENTE")
 
-        return saldo
     except ValueError:
         print('''
     VALOR INVALIDO OU INSUFICIENTE
     TENTE NOVAMENTE!''')
+    return saldo
+
 
 def realizar_deposito(saldo, extrato):
-    deposito = int(input('VALOR DO DEPOSITO: '))
-    print(f'O VALOR DO DEPOSITO É DE {deposito}')
-    saldo = saldo + deposito
-    print(f"SEU NOVO SALDO É DE: {saldo}")
-    extrato.append(f'DEPOSITO REALIZADO +R${deposito}')
-
+    try:
+        deposito = int(input('VALOR DO DEPOSITO: '))
+        print(f'O VALOR DO DEPOSITO É DE {deposito}')
+        saldo = saldo + deposito
+        print(f"SEU NOVO SALDO É DE: {saldo}")
+        extrato.append(f'DEPOSITO REALIZADO +R${deposito}')
+        comprovante_transacoes(gerador_comprovante)
+    except ValueError:
+        print('DEPOSITE UM VALOR VALIDO!')
     return saldo
 
 
@@ -177,18 +182,18 @@ def ted_transferencias(saldo, extrato):
         dados_transferencias = [f'NOME: {nome_social}, CPF: {cpf_transferencia}, BANCO: {cod_banco}, AGENCIA: {agencia}, CONTA: {num_conta}']
         print(dados_transferencias)
 
-        valor_transferencia = int(input('VALOR DA TRANSFERENCIA: '))
+        valor_transferencia = float(input('VALOR DA TRANSFERENCIA: '))
         if valor_transferencia > 0 and valor_transferencia <= saldo:
             saldo = saldo - valor_transferencia
             print(f'''TRANSFERENCIA CONCLUIDA
             R$ {valor_transferencia}''')
             extrato.append(f'TRANSFERENCIA TED -R${valor_transferencia}')
+            comprovante_transacoes(gerador_comprovante)
         else:
             print('VALOR INVALIDO')
-        return saldo
     except ValueError:
         print('VALOR INVALIDO OU INSUFICIENTE')
-
+    return saldo
 
 def pix_transferencia(saldo, extrato):
     try:
@@ -199,12 +204,12 @@ def pix_transferencia(saldo, extrato):
             saldo = saldo - pix
             print(f'PIX REALIZADO COM SUCESSO: R${pix}')
             extrato.append(f'PIX REALIZADO -R${pix}')
+            comprovante_transacoes(gerador_comprovante)
         else:
-            print('VALOR INVALIDO OU INSUFICIENTE ')
-
-        return saldo
+            print('DIGITE UM VALOR VALIDO!')
     except ValueError:
-        print('VALOR INVALIDO OU INSUFICIENTE')
+        print('DIGITE APENAS NUMEROS!')
+    return saldo
 
 
 def extrato_bancario():
@@ -224,6 +229,7 @@ def cofrinho_investimentos(saldo,extrato, saldo_cofrinho):
         saldo_cofrinho += deposito_cofrinho
         print(f'VALOR GUARDADO NO COFRINHO R${saldo_cofrinho}')
         extrato.append(f'GUARDADO NO COFRINHO: -R${deposito_cofrinho}')
+        comprovante_transacoes(gerador_comprovante)
     else:
         print('VALOR INVALIDO OU INSUFICIENTE')
     return saldo, saldo_cofrinho
@@ -257,7 +263,7 @@ def menu_cofrinho(saldo, saldo_cofrinho, extrato):
             break
         else:
             print('OPÇÃO INVALIDA!!')
-    return saldo, saldo_cofrinho
+    return saldo, saldo_cofrinho, extrato
 
 
 
@@ -266,7 +272,7 @@ def gerador_comprovante():
     for transaction in extrato:
         print('GERANDO COMPROVANTE...')
         print(f'''COMPROVANTE DE PAGAMENTO
-        VALOR: R$ {transaction}
+        {transaction}
         CPF: {cpf}''')
     
   
@@ -337,16 +343,16 @@ if usuario_cadastrado:
                 mostrar_saldo()
             elif opcao_menu == '2':
                 saldo = valor_saque(saldo, extrato)
-                comprovante_transacoes(gerador_comprovante)
+                
             elif opcao_menu == '3':
                 saldo = realizar_deposito(saldo, extrato)
-                comprovante_transacoes(gerador_comprovante)
+                
             elif opcao_menu == '4':
                  saldo = menu_transferencias(saldo, extrato)
-                 comprovante_transacoes(gerador_comprovante)
+                 
             elif opcao_menu == '5':
-                saldo, saldo_cofrinho = menu_cofrinho(saldo, saldo_cofrinho, extrato)
-                comprovante_transacoes(gerador_comprovante)
+                saldo, saldo_cofrinho, extrato = menu_cofrinho(saldo, saldo_cofrinho, extrato)
+                
             elif opcao_menu == '6':
                 extrato_bancario()
             elif opcao_menu == '7':
