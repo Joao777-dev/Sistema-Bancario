@@ -99,6 +99,7 @@ EMAIL: {dados_pessoais['email'].upper()}
     
         return dados_pessoais, cpf, email
 
+
 def chave_aleatoria():
 
     caracteres = list('abcdefryuiojna12789640')
@@ -351,8 +352,7 @@ if usuario_cadastrado:
                  saldo = menu_transferencias(saldo, extrato)
                  
             elif opcao_menu == '5':
-                saldo, saldo_cofrinho, extrato = menu_cofrinho(saldo, saldo_cofrinho, extrato)
-                
+                saldo, saldo_cofrinho, extrato = menu_cofrinho(saldo, saldo_cofrinho, extrato)     
             elif opcao_menu == '6':
                 extrato_bancario()
             elif opcao_menu == '7':
