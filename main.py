@@ -1,50 +1,9 @@
-import sqlite3
-conexao = sqlite3.connect("banco.db")
-cursor = conexao.cursor()
-
-
-
-
-print('Sistema Bancario')
-
-
-def tabela_dados_pessoais():
-    cursor.execute('''CREATE TABLE IF NOT EXISTS dados_pessoais(
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    nome VARCHAR(30) NOT NULL,
-    data_nasc DATE,
-    cpf VARCHAR(11)
-    )''')
-
-
-def inserir_dados_pessoais(nome_client, data_nasc, cpf_client):
-    sql = (''' INSERT INTO dados_pessoais (nome, data_nasc, cpf) VALUES (?, ?, ?)
-''')
-    cursor.execute(sql, (nome_client, data_nasc, cpf_client))
-
-    conexao.commit()
-    print('DADOS INSERIDOS COM SUCESSO!')
-    
-    return nome_client, data_nasc, cpf_client
-
-
-
-def delete_table(id):
-    sql = ("DELETE FROM dados_pessoais WHERE id = ?")
-    number_id = (id,)
-    cursor.execute(sql,number_id )
-    conexao.commit()
-    print('USUARIO DELETADO COM SUCESSO!')
-
-#delete_table(10) 
-
-def buscar_usuarios():
-    cursor.execute =  ('''SELECT * FROM dados_pessoais''')
-    usuarios_consultados = cursor.fetchall()
-    for users in usuarios_consultados:
-        print(users)
-    conexao.commit()
-
+from database.sqlite_utils import (
+    tabela_dados_pessoais,
+    inserir_dados_pessoais,
+    buscar_usuarios,
+    deletar_usuario
+)
 
 
 
@@ -55,48 +14,11 @@ def validar_nasc(data_nasc):
     return data_nasc.isdigit() and len(data_nasc) == 8
 
 
-def menu_cadastro():
-    nome_client = input('NOME COMPLETO: ')
-    while not nome_client: 
-        nome_client = input('NOME COMPLETO: ')
 
 
-    while True:
-        data_nasc = input('DATA DE NASCIMENTO (DDMMAAAA): ')
-        if validar_nasc(data_nasc):
-            print('DATA DE NASCIMENTO CADASTRADA COM SUCESSO!')
-            break
-        else:
-            print('DATA DE NASCIMENTO INVALIDA OU INCORETA!')
-    while True:
-        cpf_client = input('CPF: ')
-        if validar_cpf(cpf_client):
-            print('CPF CADASTRADO COM SUCESSO!')
-            break
-        else:
-            print('CPF INVALIDO OU INCORRETO')
-
-    return nome_client, data_nasc, cpf_client
 
 #tabela_dados_pessoais()
 #cursor.execute('''SELECT * FROM dados_pessoais''')
-
-
-
-
-
-
-def tela_login(cpf_client):
-    while True:
-        cpf_login= input('CPF: ')
-        if cpf_login == cpf_client:
-            break
-        else:
-            print('CPF INCORRETO!')
-    senha_client = input('CRIE SUA SENHA: ')
-    return cpf_login, senha_client
-
-
 
 
 def exibir_saldo(saldo_usuario):
@@ -124,7 +46,36 @@ def deposito_usuario(saldo_usuario):
         print('VALOR INVALIDO')
     return saldo_usuario
 
-def inciializar_cadastro():
+
+
+def cadastro_usuario():
+    nome_client = input('NOME COMPLETO: ')
+    while not nome_client: 
+        nome_client = input('NOME COMPLETO: ')
+
+    while True:
+        data_nasc = input('DATA DE NASCIMENTO (DDMMAAAA): ')
+        if validar_nasc(data_nasc):
+            print('DATA DE NASCIMENTO CADASTRADA COM SUCESSO!')
+            break
+        else:
+            print('DATA DE NASCIMENTO INVALIDA OU INCORETA!')
+    while True:
+        cpf_client = input('CPF: ')
+        if validar_cpf(cpf_client):
+            print('CPF CADASTRADO COM SUCESSO!')
+            break
+        else:
+            print('CPF INVALIDO OU INCORRETO')
+
+    return nome_client, data_nasc, cpf_client
+
+
+
+
+
+
+def menu_cadastro():
     while True:
         print('''
         [1] REALIZAR CADASTRO
@@ -133,7 +84,8 @@ def inciializar_cadastro():
         ''')
         opcao_menu = input('OPCAO: ')
         if opcao_menu == '1':
-            nome_client, data_nasc, cpf_client = menu_cadastro()
+            nome_client, data_nasc, cpf_client = cadastro_usuario()
+            tela_login(cpf_client)
             nome_client, data_nasc, cpf_client = inserir_dados_pessoais(nome_client, data_nasc, cpf_client)
             break
         elif opcao_menu == '2':
@@ -143,13 +95,21 @@ def inciializar_cadastro():
             break
 
 
-
+def tela_login(cpf_client):
+    while True:
+        cpf_login= input('CPF: ')
+        if cpf_login == cpf_client:
+            break
+        else:
+            print('CPF INCORRETO!')
+    senha_client = input('CRIE SUA SENHA: ')
+    return cpf_login, senha_client
 
 print('''
 TELA DE ACESSO!
 BEM VINDO AO NOSSO APLICATVO!''')
 
-#tela_login(cpf_client)
+
 
 saldo_usuario = 200
 def area_usuario():
@@ -170,4 +130,7 @@ def area_usuario():
             saldo_usuario = deposito_usuario(saldo_usuario)
         elif opcao == '4':
             break
-cursor.execute("DROP TABLE IF EXISTS transactions_clients")
+
+
+menu_cadastro()
+area_usuario()
