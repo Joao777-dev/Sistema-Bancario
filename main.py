@@ -36,7 +36,7 @@ def delete_table(id):
     conexao.commit()
     print('USUARIO DELETADO COM SUCESSO!')
 
-delete_table(10) 
+#delete_table(10) 
 
 def buscar_usuarios():
     cursor.execute =  ('''SELECT * FROM dados_pessoais''')
@@ -124,23 +124,23 @@ def deposito_usuario(saldo_usuario):
         print('VALOR INVALIDO')
     return saldo_usuario
 
-
-while True:
-    print('''
-    [1] REALIZAR CADASTRO
-    [2] SAIBA MAIS
-    [3] SAIR  
-    ''')
-    opcao_menu = input('OPCAO: ')
-    if opcao_menu == '1':
-        nome_client, data_nasc, cpf_client = menu_cadastro()
-        nome_client, data_nasc, cpf_client = inserir_dados_pessoais(nome_client, data_nasc, cpf_client)
-        break
-    elif opcao_menu == '2':
-        print('BLABLABLA')
-        break
-    elif opcao_menu == '3':
-        break
+def inciializar_cadastro():
+    while True:
+        print('''
+        [1] REALIZAR CADASTRO
+        [2] SAIBA MAIS
+        [3] SAIR  
+        ''')
+        opcao_menu = input('OPCAO: ')
+        if opcao_menu == '1':
+            nome_client, data_nasc, cpf_client = menu_cadastro()
+            nome_client, data_nasc, cpf_client = inserir_dados_pessoais(nome_client, data_nasc, cpf_client)
+            break
+        elif opcao_menu == '2':
+            print('BLABLABLA')
+            break
+        elif opcao_menu == '3':
+            break
 
 
 
@@ -152,20 +152,22 @@ BEM VINDO AO NOSSO APLICATVO!''')
 #tela_login(cpf_client)
 
 saldo_usuario = 200
-while True:
-    print('''
-    [1]SALDO
-    [2]SAQUE
-    [3]DEPOSITOS
-    [4]SAIR
-    ''')
-    opcao = input('OPCAO: ')
-    if opcao == '1':
-        exibir_saldo(saldo_usuario)
-    elif opcao == '2':
-        saldo_usuario = saque_usuario(saldo_usuario)
+def area_usuario():
+    while True:
+        print('''
+        [1]SALDO
+        [2]SAQUE
+        [3]DEPOSITOS
+        [4]SAIR
+        ''')
+        opcao = input('OPCAO: ')
+        if opcao == '1':
+            exibir_saldo(saldo_usuario)
+        elif opcao == '2':
+            saldo_usuario = saque_usuario(saldo_usuario)
 
-    elif opcao == '3':
-        saldo_usuario = deposito_usuario(saldo_usuario)
-    elif opcao == '4':
-         break
+        elif opcao == '3':
+            saldo_usuario = deposito_usuario(saldo_usuario)
+        elif opcao == '4':
+            break
+cursor.execute("DROP TABLE IF EXISTS transactions_clients")
