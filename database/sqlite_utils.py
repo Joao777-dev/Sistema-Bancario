@@ -7,26 +7,26 @@ def tabela_dados_pessoais():
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(30) NOT NULL,
     data_nasc VARCHAR(8),
-    cpf VARCHAR(11)
+    cpf VARCHAR(11),
+    telefone VARCHAR(11)
     )''')
     conexao.commit()
     conexao.close()
 
+tabela_dados_pessoais()
 
-
-def inserir_dados_pessoais(nome_client, data_nasc, cpf_client):
+def inserir_dados_pessoais(nome_client, data_nasc, cpf_client, tel_cliente):
 
     conexao = sqlite3.connect("banco.db")
     cursor = conexao.cursor()
-    sql_query = (''' INSERT INTO dados_pessoais (nome, data_nasc, cpf) VALUES (?, ?, ?)
+    sql_query = (''' INSERT INTO dados_pessoais (nome, data_nasc, cpf, telefone) VALUES (?, ?, ?, ?)
 ''')
-    cursor.execute(sql_query, (nome_client, data_nasc, cpf_client))
+    cursor.execute(sql_query, (nome_client, data_nasc, cpf_client, tel_cliente))
 
     conexao.commit()
     conexao.close()
     print('DADOS INSERIDOS COM SUCESSO!')
-    
-    return nome_client, data_nasc, cpf_client
+    return nome_client, data_nasc, cpf_client, tel_cliente
 
 def tabela_transacoes():
     cursor.execute('''CREATE TABLE IF NOT EXISTS transacoes(
@@ -71,4 +71,3 @@ def buscar_usuarios():
     for users in usuarios_consultados:
         print(users)
 
-tabela_dados_pessoais()

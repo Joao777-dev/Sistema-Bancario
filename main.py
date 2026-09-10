@@ -14,11 +14,8 @@ def validar_cpf(cpf_client):
 def validar_nasc(data_nasc):
     return data_nasc.isdigit() and len(data_nasc) == 8
 
-
-
-#tabela_dados_pessoais()
-#cursor.execute('''SELECT * FROM dados_pessoais''')
-
+def validar_tel(tel_cliente):
+    return tel_cliente.isdigit() and len(tel_cliente) == 11
 
 def exibir_saldo(saldo_usuario):
     print(f'SEU SALDO É DE R${saldo_usuario}')
@@ -41,10 +38,10 @@ def saque_usuario(saldo_usuario):
 
 def deposito_usuario(saldo_usuario):
     valor_deposito = int(input('DEPOSITO R$: '))
-    if valor_deposito > 0 :
+    if valor_deposito > 0 and valor_deposito <= 5000:
         saldo_usuario += valor_deposito
     else:
-        print('VALOR INVALIDO')
+        print(f'VALOR INVALIDO OU EXCEDEU O LIMITE {valor_deposito}')
     return saldo_usuario
 
 
@@ -61,6 +58,7 @@ def cadastro_usuario():
             break
         else:
             print('DATA DE NASCIMENTO INVALIDA OU INCORETA!')
+
     while True:
         cpf_client = input('CPF: ')
         if validar_cpf(cpf_client):
@@ -68,10 +66,15 @@ def cadastro_usuario():
             break
         else:
             print('CPF INVALIDO OU INCORRETO')
+    while True:
+        tel_cliente = input('TEL: +55')
+        if validar_tel:
+            print('TELEFONE CADASTRADO COM SUCESSO!')
+            break
+        else:
+            print(f'NUMERO INVALIDO OU INCORRETO {tel_cliente}')
 
-    return nome_client, data_nasc, cpf_client
-
-
+    return nome_client, data_nasc, cpf_client, tel_cliente
 
 
 
@@ -86,14 +89,15 @@ def menu_cadastro():
         ).execute()
         match opcao_menu:
             case '1':
-                nome_client, data_nasc, cpf_client = cadastro_usuario()
+                nome_client, data_nasc, cpf_client, tel_cliente = cadastro_usuario()
                 tela_login(cpf_client)
-                nome_client, data_nasc, cpf_client = inserir_dados_pessoais(nome_client, data_nasc, cpf_client)
+                nome_client, data_nasc, cpf_client, tel_cliente = inserir_dados_pessoais(nome_client, data_nasc, cpf_client, tel_cliente)
                 break
             case '2':
                 print('BLABLABLA')
             case '3':
                 break
+
 
 def tela_login(cpf_client):
     while True:
@@ -104,12 +108,6 @@ def tela_login(cpf_client):
             print('CPF INCORRETO!')
     senha_client = input('CRIE SUA SENHA: ')
     return cpf_login, senha_client
-
-print('''
-TELA DE ACESSO!
-BEM VINDO AO NOSSO APLICATVO!''')
-
-
 
 
 def area_usuario():
@@ -129,9 +127,8 @@ def area_usuario():
                 saldo_usuario = saque_usuario(saldo_usuario)
             case '3':
                 saldo_usuario = deposito_usuario(saldo_usuario)
-            case 4:
+            case '4':
                 break
-                exit()
     return saldo_usuario
 
 menu_cadastro()
