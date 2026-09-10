@@ -4,6 +4,7 @@ from database.sqlite_utils import (
     buscar_usuarios,
     deletar_usuario
 )
+from InquirerPy import inquirer
 
 
 
@@ -12,8 +13,6 @@ def validar_cpf(cpf_client):
 
 def validar_nasc(data_nasc):
     return data_nasc.isdigit() and len(data_nasc) == 8
-
-
 
 
 
@@ -37,6 +36,8 @@ def saque_usuario(saldo_usuario):
     else:
         print(f'VALOR INVALIDO! {valor_saque}')
     return  saldo_usuario
+
+
 
 def deposito_usuario(saldo_usuario):
     valor_deposito = int(input('DEPOSITO R$: '))
@@ -77,12 +78,13 @@ def cadastro_usuario():
 
 def menu_cadastro():
     while True:
-        print('''
-        [1] REALIZAR CADASTRO
-        [2] SAIBA MAIS
-        [3] SAIR  
-        ''')
-        opcao_menu = input('OPCAO: ')
+        opcao_menu = inquirer.select(
+        message = 'CADASTRE-SE',
+        choices =[{'name':'[1] REALIZAR CADASTRO',"value":"1"},
+                  {'name':'[2] SAIBA MAIS', "value": "2"},
+                  {'name':'[3] SAIR', 'value':'3'}]
+        ).execute()
+
         if opcao_menu == '1':
             nome_client, data_nasc, cpf_client = cadastro_usuario()
             tela_login(cpf_client)
@@ -90,7 +92,6 @@ def menu_cadastro():
             break
         elif opcao_menu == '2':
             print('BLABLABLA')
-            break
         elif opcao_menu == '3':
             break
 
@@ -115,22 +116,22 @@ BEM VINDO AO NOSSO APLICATVO!''')
 def area_usuario():
     saldo_usuario = 200
     while True:
-        
-        print('''
-        [1]SALDO
-        [2]SAQUE
-        [3]DEPOSITOS
-        [4]SAIR
-        ''')
-        opcao = input('OPCAO: ')
-        if opcao == '1':
+
+        opcao_menu = inquirer.select(message = '',
+                                     choices = [{'name':'[1]SALDO','value':'1'},
+                                                {'name':'[2]SAQUE','value':'2'},
+                                                {'name':'[3]DEPOSITO','value' :'3'}, 
+                                                {'name':'[4]SAIR', 'value': '4'}
+                                                ]).execute()
+                                     
+        if opcao_menu == '1':
             exibir_saldo(saldo_usuario)
-        elif opcao == '2':
+        elif opcao_menu == '2':
             saldo_usuario = saque_usuario(saldo_usuario)
 
-        elif opcao == '3':
+        elif opcao_menu == '3':
             saldo_usuario = deposito_usuario(saldo_usuario)
-        elif opcao == '4':
+        elif opcao_menu == '4':
             break
     return saldo_usuario
 
