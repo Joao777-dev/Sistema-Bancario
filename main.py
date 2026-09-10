@@ -84,17 +84,16 @@ def menu_cadastro():
                   {'name':'[2] SAIBA MAIS', "value": "2"},
                   {'name':'[3] SAIR', 'value':'3'}]
         ).execute()
-
-        if opcao_menu == '1':
-            nome_client, data_nasc, cpf_client = cadastro_usuario()
-            tela_login(cpf_client)
-            nome_client, data_nasc, cpf_client = inserir_dados_pessoais(nome_client, data_nasc, cpf_client)
-            break
-        elif opcao_menu == '2':
-            print('BLABLABLA')
-        elif opcao_menu == '3':
-            break
-
+        match opcao_menu:
+            case '1':
+                nome_client, data_nasc, cpf_client = cadastro_usuario()
+                tela_login(cpf_client)
+                nome_client, data_nasc, cpf_client = inserir_dados_pessoais(nome_client, data_nasc, cpf_client)
+                break
+            case '2':
+                print('BLABLABLA')
+            case '3':
+                break
 
 def tela_login(cpf_client):
     while True:
@@ -120,19 +119,19 @@ def area_usuario():
         opcao_menu = inquirer.select(message = '',
                                      choices = [{'name':'[1]SALDO','value':'1'},
                                                 {'name':'[2]SAQUE','value':'2'},
-                                                {'name':'[3]DEPOSITO','value' :'3'}, 
+                                                {'name':'[3]DEPOSITO','value':'3'}, 
                                                 {'name':'[4]SAIR', 'value': '4'}
                                                 ]).execute()
-                                     
-        if opcao_menu == '1':
-            exibir_saldo(saldo_usuario)
-        elif opcao_menu == '2':
-            saldo_usuario = saque_usuario(saldo_usuario)
-
-        elif opcao_menu == '3':
-            saldo_usuario = deposito_usuario(saldo_usuario)
-        elif opcao_menu == '4':
-            break
+        match opcao_menu:
+            case '1':
+                exibir_saldo(saldo_usuario)
+            case '2':
+                saldo_usuario = saque_usuario(saldo_usuario)
+            case '3':
+                saldo_usuario = deposito_usuario(saldo_usuario)
+            case 4:
+                break
+                exit()
     return saldo_usuario
 
 menu_cadastro()
