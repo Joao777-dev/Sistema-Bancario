@@ -111,9 +111,11 @@ BEM VINDO AO NOSSO APLICATVO!''')
 
 
 
-saldo_usuario = 200
+
 def area_usuario():
+    saldo_usuario = 200
     while True:
+        
         print('''
         [1]SALDO
         [2]SAQUE
@@ -130,7 +132,7 @@ def area_usuario():
             saldo_usuario = deposito_usuario(saldo_usuario)
         elif opcao == '4':
             break
-
+    return saldo_usuario
 
 menu_cadastro()
 area_usuario()
