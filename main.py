@@ -4,10 +4,13 @@ from database.sqlite_utils import (
     buscar_usuarios,
     deletar_usuario
 )
-from cadastro_usuario.cadastro import (
+from validacao_usuario.validacao import(
     validar_cpf,
     validar_nasc,
-    validar_tel,
+    validar_tel
+)
+
+from cadastro_usuario.cadastro import (
     cadastro_usuario
 )
 
