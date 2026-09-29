@@ -57,7 +57,7 @@ def cadastro_usuario():
             print('DATA DE NASCIMENTO CADASTRADA COM SUCESSO!')
             break
         else:
-            print('DATA DE NASCIMENTO INVALIDA OU INCORRETA!')
+            print('DATA DE NASCIMENTO INVALIDA OU INCORETA!')
 
     while True:
         cpf_client = input('CPF: ')
@@ -128,7 +128,6 @@ def area_usuario():
             case '3':
                 saldo_usuario = deposito_usuario(saldo_usuario)
             case '4':
-                print('FINALIZANDO OPERAÇÃO...')
                 break
     return saldo_usuario
 

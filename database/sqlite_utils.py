@@ -13,6 +13,7 @@ def tabela_dados_pessoais():
     conexao.commit()
     conexao.close()
 
+tabela_dados_pessoais()
 
 def inserir_dados_pessoais(nome_client, data_nasc, cpf_client, tel_cliente):
 
@@ -31,7 +32,6 @@ def tabela_transacoes():
     cursor.execute('''CREATE TABLE IF NOT EXISTS transacoes(
     id_transacao INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     tipo_transacao VARCHAR(30),
-    valor_transacao INTEGER NOT NULL,
     transacao_client INTEGER,
     CONSTRAINT fk_clientes_transactions 
     FOREIGN KEY (transacao_client)
@@ -39,14 +39,13 @@ def tabela_transacoes():
 )''') 
     conexao.commit()
     conexao.close()
-tabela_transacoes()
 
-def inserir_transacoes(tipo_transacao, valor_transacao, transacao_client):
+def inserir_transacoes(tipo_transacao, transacao_client):
     conexao = sqlite3.connect("banco.db")
     cursor = conexao.cursor()
-    sql_query = (''' INSERT INTO transacoes (tipo_transacao, valor_transacao, transacao_client) VALUES (?,?,?)
+    sql_query = (''' INSERT INTO transacoes (tipo_transacao, transacao_client) VALUES (?,?)
 ''') 
-    cursor.execute(sql_query, (tipo_transacao,valor_transacao, transacao_client))
+    cursor.execute(sql_query, (tipo_transacao, transacao_client))
     conexao.commit()
     conexao.close()
 
@@ -71,4 +70,3 @@ def buscar_usuarios():
     usuarios_consultados = cursor.fetchall()
     for users in usuarios_consultados:
         print(users)
-
