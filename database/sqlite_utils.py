@@ -50,6 +50,8 @@ def inserir_transacoes(tipo_transacao, transacao_client):
     conexao.close()
 
 def deletar_usuario(id):
+    conexao = sqlite3.connect("banco.db")
+    cursor = conexao.cursor()
     sql_query = ("DELETE FROM dados_pessoais WHERE id = ?")
     number_id = (id,)
     cursor.execute(sql_query,number_id )
@@ -59,7 +61,9 @@ def deletar_usuario(id):
 
 
 def deletar_tabela():
-    cursor.execute("DROP TABLE IF EXISTS dados_pessoais")
+    conexao = sqlite3.connect("banco.db")
+    cursor = conexao.cursor()
+    cursor.execute("DROP TABLE IF EXISTS transacoes")
     print('TABELA DELETADA COM SUCESSO!')
     conexao.commit()
     conexao.close()
@@ -70,3 +74,5 @@ def buscar_usuarios():
     usuarios_consultados = cursor.fetchall()
     for users in usuarios_consultados:
         print(users)
+
+deletar_tabela()
