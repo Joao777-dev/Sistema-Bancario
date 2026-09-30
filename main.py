@@ -2,7 +2,9 @@ from database.sqlite_utils import (
     tabela_dados_pessoais,
     inserir_dados_pessoais,
     buscar_usuarios,
-    deletar_usuario
+    deletar_usuario,
+    tabela_transacoes,
+    inserir_transacoes
 )
 from validacao_usuario.validacao import(
     validar_cpf,
@@ -37,9 +39,9 @@ def menu_cadastro():
         match opcao_menu:
             case '1':
                 nome_client, data_nasc, cpf_client, tel_cliente = cadastro_usuario()
-                tela_login(cpf_client)
-                nome_client, data_nasc, cpf_client, tel_cliente = inserir_dados_pessoais(nome_client, data_nasc, cpf_client, tel_cliente)
-                break
+                #tela_login(cpf_client)
+                id_cliente = inserir_dados_pessoais(nome_client, data_nasc, cpf_client, tel_cliente)
+                return id_cliente
             case '2':
                 print('BLABLABLA')
             case '3':
@@ -57,7 +59,7 @@ def tela_login(cpf_client):
     return cpf_login, senha_client
 
 
-def area_usuario():
+def area_usuario(id_cliente):
     saldo_usuario = 200
     extrato = []
     while True:
@@ -73,14 +75,15 @@ def area_usuario():
             case '1':
                 exibir_saldo(saldo_usuario)
             case '2':
-                saldo_usuario, extrato = saque_usuario(saldo_usuario, extrato)
+               saldo_usuario, extrato = saque_usuario(saldo_usuario, extrato, id_cliente)
             case '3':
-                saldo_usuario, extrato = deposito_usuario(saldo_usuario, extrato)
+                saldo_usuario, extrato = deposito_usuario(saldo_usuario, extrato, id_cliente)
             case '4':
                 extrato_usuario(extrato)
             case '5':
                 break
     return saldo_usuario, extrato
 
-menu_cadastro()
-area_usuario()
+id_cliente = menu_cadastro()
+if id_cliente:
+    area_usuario(id_cliente)

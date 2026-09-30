@@ -13,7 +13,6 @@ def tabela_dados_pessoais():
     conexao.commit()
     conexao.close()
 
-tabela_dados_pessoais()
 
 def inserir_dados_pessoais(nome_client, data_nasc, cpf_client, tel_cliente):
 
@@ -22,30 +21,36 @@ def inserir_dados_pessoais(nome_client, data_nasc, cpf_client, tel_cliente):
     sql_query = (''' INSERT INTO dados_pessoais (nome, data_nasc, cpf, telefone) VALUES (?, ?, ?, ?)
 ''')
     cursor.execute(sql_query, (nome_client, data_nasc, cpf_client, tel_cliente))
-
+    id_cliente = cursor.lastrowid
     conexao.commit()
     conexao.close()
     print('DADOS INSERIDOS COM SUCESSO!')
-    return nome_client, data_nasc, cpf_client, tel_cliente
+    return id_cliente
 
 def tabela_transacoes():
+    conexao = sqlite3.connect("banco.db")
+    cursor = conexao.cursor()        
+    cursor.execute("PRAGMA foreign_keys = ON")
     cursor.execute('''CREATE TABLE IF NOT EXISTS transacoes(
     id_transacao INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    tipo_transacao VARCHAR(30),
-    transacao_client INTEGER,
+    tipo_transacao VARCHAR(30) NOT NULL,
+    valor_transacao INTEGER NOT NULL,
+    transacao_client INTEGER NOT NULL,
     CONSTRAINT fk_clientes_transactions 
     FOREIGN KEY (transacao_client)
     REFERENCES dados_pessoais(id)
 )''') 
     conexao.commit()
     conexao.close()
+    print('TABELA CRIADA COM SUCESSO!')
 
-def inserir_transacoes(tipo_transacao, transacao_client):
+def inserir_transacoes(tipo_transacao, valor_transacao, transacao_client):
     conexao = sqlite3.connect("banco.db")
     cursor = conexao.cursor()
-    sql_query = (''' INSERT INTO transacoes (tipo_transacao, transacao_client) VALUES (?,?)
+    cursor.execute("PRAGMA foreign_keys = ON")
+    sql_query = (''' INSERT INTO transacoes (tipo_transacao, valor_transacao, transacao_client) VALUES (?,?,?)
 ''') 
-    cursor.execute(sql_query, (tipo_transacao, transacao_client))
+    cursor.execute(sql_query, (tipo_transacao, valor_transacao, transacao_client))
     conexao.commit()
     conexao.close()
 
@@ -75,4 +80,4 @@ def buscar_usuarios():
     for users in usuarios_consultados:
         print(users)
 
-deletar_tabela()
+tabela_transacoes()
