@@ -36,6 +36,7 @@ def tabela_transacoes():
     tipo_transacao VARCHAR(30) NOT NULL,
     valor_transacao INTEGER NOT NULL,
     transacao_client INTEGER NOT NULL,
+    data_transacao TEXT,
     CONSTRAINT fk_clientes_transactions 
     FOREIGN KEY (transacao_client)
     REFERENCES dados_pessoais(id)
@@ -44,13 +45,13 @@ def tabela_transacoes():
     conexao.close()
     print('TABELA CRIADA COM SUCESSO!')
 
-def inserir_transacoes(tipo_transacao, valor_transacao, transacao_client):
+def inserir_transacoes(tipo_transacao, valor_transacao, transacao_client, data_transacao):
     conexao = sqlite3.connect("banco.db")
     cursor = conexao.cursor()
     cursor.execute("PRAGMA foreign_keys = ON")
-    sql_query = (''' INSERT INTO transacoes (tipo_transacao, valor_transacao, transacao_client) VALUES (?,?,?)
+    sql_query = (''' INSERT INTO transacoes (tipo_transacao, valor_transacao, transacao_client, data_transacao) VALUES (?,?,?,?)
 ''') 
-    cursor.execute(sql_query, (tipo_transacao, valor_transacao, transacao_client))
+    cursor.execute(sql_query, (tipo_transacao, valor_transacao, transacao_client, data_transacao))
     conexao.commit()
     conexao.close()
 
@@ -79,5 +80,18 @@ def buscar_usuarios():
     usuarios_consultados = cursor.fetchall()
     for users in usuarios_consultados:
         print(users)
+
+
+def buscar_saldo(transacao_client):
+    conexao = sqlite3.connect("banco.db")
+    cursor = conexao.cursor()
+    sql_query = ('''
+    SELECT SUM (valor_transacao) FROM transacoes
+    WHERE transacao_client = ?''')
+    cursor.execute(sql_query, (transacao_client,))
+    total_transacoes = cursor.fetchone()[0]
+    
+    saldo_atual = 200 - total_transacoes
+    print(saldo_atual)
 
 tabela_transacoes()
