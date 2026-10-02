@@ -1,11 +1,11 @@
 from database.sqlite_utils import(
-    tabela_transacoes,
     inserir_transacoes
 )
 from datetime import (
-    date, 
-    time, 
     datetime
+)
+from validacao_usuario.validacao import(
+    validar_cpf_pix
 )
 
 def exibir_saldo(saldo_usuario):
@@ -30,6 +30,32 @@ def saque_usuario(saldo_usuario, extrato, id_cliente):
         print('SOMENTE NUMEROS!')
     return  saldo_usuario, extrato
 
+
+
+def validacao_pix():
+    while True:
+        cpf_transacao = input('CPF: ')
+        if validar_cpf_pix(cpf_transacao):
+            break
+        else:
+            print('CPF INVALIDO OU INCORRETO')
+    return cpf_transacao
+
+def pix_usuario(saldo_usuario, id_cliente):
+    try:
+        if validacao_pix:
+            valor_pix = int(input('PIX: R$'))
+            if valor_pix > 0 and valor_pix <= saldo_usuario:
+                saldo_usuario -= valor_pix
+                print(f'PIX REALIZADO COM SUCESSO, R${valor_pix}')
+                inserir_transacoes("PIX", valor_pix, id_cliente, datetime.now())
+            else:
+                print('VALOR INVALIDO!')
+    except ValueError:
+        print('APENAS NUMEROS!')
+    return saldo_usuario
+
+
 def deposito_usuario(saldo_usuario, extrato, id_cliente):
     try:
         valor_deposito = int(input('DEPOSITO R$: '))
@@ -45,7 +71,5 @@ def deposito_usuario(saldo_usuario, extrato, id_cliente):
 
 def extrato_usuario(extrato):
     for transacao in extrato:
-        print(f'''
-TIPO: {transacao}
-DATA: 
+        print(f'''TIPO:{transacao}
 ''')

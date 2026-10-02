@@ -6,3 +6,6 @@ def validar_nasc(data_nasc):
 
 def validar_tel(tel_cliente):
     return tel_cliente.isdigit() and len(tel_cliente) == 11
+
+def validar_cpf_pix(cpf_transacao):
+    return cpf_transacao.isdigit() and len(cpf_transacao) == 11

@@ -58,7 +58,7 @@ def inserir_transacoes(tipo_transacao, valor_transacao, transacao_client, data_t
 def deletar_usuario(id):
     conexao = sqlite3.connect("banco.db")
     cursor = conexao.cursor()
-    sql_query = ("DELETE FROM dados_pessoais WHERE id = ?")
+    sql_query = ("DELETE FROM dados_pessoais WHERE id >= ?")
     number_id = (id,)
     cursor.execute(sql_query,number_id )
     conexao.commit()
@@ -74,9 +74,14 @@ def deletar_tabela():
     conexao.commit()
     conexao.close()
 
+def alterar_tabela():
+    conexao = sqlite3.connect("banco.db")
+    cursor = conexao.cursor()
+    cursor.execute("ALTER TABLE IF EXISTS transacoes ADD COLUMN ")
+
 
 def buscar_usuarios():
-    cursor.execute('SELECT * FROM dados_pessoais')
+    cursor.execute('SELECT * FROM transacoes')
     usuarios_consultados = cursor.fetchall()
     for users in usuarios_consultados:
         print(users)
@@ -94,4 +99,4 @@ def buscar_saldo(transacao_client):
     saldo_atual = 200 - total_transacoes
     print(saldo_atual)
 
-tabela_transacoes()
+deletar_usuario(9)

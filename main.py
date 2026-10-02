@@ -1,15 +1,5 @@
 from database.sqlite_utils import (
-    tabela_dados_pessoais,
     inserir_dados_pessoais,
-    buscar_usuarios,
-    deletar_usuario,
-    tabela_transacoes,
-    inserir_transacoes
-)
-from validacao_usuario.validacao import(
-    validar_cpf,
-    validar_nasc,
-    validar_tel
 )
 
 from cadastro_usuario.cadastro import (
@@ -20,12 +10,11 @@ from transacoes_usuario.transacoes import (
     exibir_saldo,
     saque_usuario,
     deposito_usuario,
-    extrato_usuario
+    extrato_usuario,
+    validacao_pix,
+    pix_usuario
 )
 from InquirerPy import inquirer
-
-from datetime import date, time, datetime
-
 
 
 def menu_cadastro():
@@ -68,8 +57,9 @@ def area_usuario(id_cliente):
                                      choices = [{'name':'[1]SALDO','value':'1'},
                                                 {'name':'[2]SAQUE','value':'2'},
                                                 {'name':'[3]DEPOSITO','value':'3'}, 
-                                                {'name':'[4]EXTRATO', 'value': '4'},                                              
-                                                {'name':'[5]SAIR', 'value': '5'}
+                                                {'name':'[4]PIX', 'value': '4'},                                              
+                                                {'name':'[5]EXTRATO', 'value': '5'},
+                                                {'name':'[6]SAIR', 'value': '5'}
                                                 ]).execute()
         match opcao_menu:
             case '1':
@@ -79,8 +69,11 @@ def area_usuario(id_cliente):
             case '3':
                 saldo_usuario, extrato = deposito_usuario(saldo_usuario, extrato, id_cliente)
             case '4':
-                extrato_usuario(extrato)
+                validacao_pix()
+                saldo_usuario = pix_usuario(saldo_usuario, id_cliente)
             case '5':
+                extrato_usuario()
+            case '6':
                 break
     return saldo_usuario, extrato
 
